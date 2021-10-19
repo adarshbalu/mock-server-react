@@ -43,6 +43,7 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
             }
         }
         getMocks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (<>

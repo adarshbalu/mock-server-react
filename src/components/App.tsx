@@ -1,7 +1,6 @@
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
-import LandingPage from "./landing/LandingPage";
 import Home from "./home/Home";
 import CreateNew from "./create/CreateNew";
 import { MocksContextProvider } from "../contexts/mocks_contex";

@@ -25,6 +25,7 @@
       "id": 1,
       "method": "GET",
       "status": 200,
+       "body": {},
       "params": {
         "name": "a",
         "age": 10
@@ -37,6 +38,7 @@
     },
     {
       "id": 2,
+       "body": {},
       "method": "POST",
       "status": 200,
       "params": {
@@ -51,12 +53,14 @@
     },
     {
       "id": 3,
+       "body": {},
       "method": "DELETE",
       "status": 200,
       "params": {
         "name": "a",
         "age": 10
       },
+      
       "endpoint": "/api",
       "response": {
         "name": "a",
@@ -67,6 +71,7 @@
       "id": 4,
       "method": "PUT",
       "status": 200,
+       "body": {},
       "endpoint": "/api",
       "params": {
         "name": "a",

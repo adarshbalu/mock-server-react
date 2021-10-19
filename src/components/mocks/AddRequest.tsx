@@ -24,6 +24,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
     const [paramsInputList, setParamsInputList] = useState([{ key: "", value: "" }]);
     let params = {};
     const [res, setRes] = useState("");
+    const [body, setBody] = useState("");
 
 
     // handle params input change
@@ -75,16 +76,19 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
                 let requestData: RequestType = {
                     method: method,
                     status: 200,
+                    body: body,
                     endPoint: endPoint,
                     params: params,
                     response: res,
 
                 };
-                if (Util.checkResponseForJSON(res)) {
+                if (Util.checkForJSON(res)) {
                     requestData = { ...requestData, response: JSON.parse(res) }
                 }
 
-
+                if (Util.checkForJSON(body)) {
+                    requestData = { ...requestData, body: JSON.parse(body) }
+                }
                 const newRequst = await APIService.post(URL.REQUEST_PATH, requestData) as RequestType;
                 const mockServerData: Mock = {
                     ...mock,
@@ -226,20 +230,43 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
                         );
                     })}
                     <br />
-                    {/* Input field for Raw response */}
-                    <label className="label-style" htmlFor="text">
-                        Raw response
-                    </label>
-                    <input
-                        className="input-field"
-                        type="text"
-                        id="response"
-                        required
-                        value={res}
-                        onChange={(e) => {
-                            setRes(e.target.value);
-                        }}
-                    />
+                    <div className="form-row">
+
+                        {/* Input for raw request body */}
+                        <div className="form-item">
+                            <label className="label-style" htmlFor="text">
+                                Raw request body
+                            </label>
+                            <input
+                                className="input-field"
+                                type="text"
+                                id="body"
+                                required
+                                value={body}
+                                onChange={(e) => {
+                                    setBody(e.target.value);
+                                }}
+                            /></div>
+
+
+
+                        {/* Input field for Raw response */}
+                        <div className="form-item">
+                            <label className="label-style" htmlFor="text">
+                                Raw response
+                            </label>
+                            <input
+                                className="input-field"
+                                type="text"
+                                id="response"
+                                required
+                                value={res}
+                                onChange={(e) => {
+                                    setRes(e.target.value);
+                                }}
+                            />
+                        </div>
+                    </div>
 
 
 

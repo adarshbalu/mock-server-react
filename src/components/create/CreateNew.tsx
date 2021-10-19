@@ -19,6 +19,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     const [name, setName] = useState("");
     const [method, setMethod] = useState("GET");
     const [endPoint, setEndPoint] = useState(`/api`);
+    const [body, setBody] = useState("");
     const [paramsInputList, setParamsInputList] = useState([{ key: "", value: "" }]);
     let params = {};
     const [res, setRes] = useState("");
@@ -74,13 +75,17 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                 let requestData: RequestType = {
                     method: method,
                     status: 200,
+                    body: body,
                     endPoint: endPoint,
                     params: params,
                     response: res,
 
                 };
-                if (Util.checkResponseForJSON(res)) {
+                if (Util.checkForJSON(res)) {
                     requestData = { ...requestData, response: JSON.parse(res) }
+                }
+                if (Util.checkForJSON(body)) {
+                    requestData = { ...requestData, body: JSON.parse(body) }
                 }
 
 
@@ -180,8 +185,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                             />
                         </div>
 
-                        {/* Buttons */}
-                        <div className="button-row">
+
                             {/* Button to Save         */}
                             <div className="form-item">
                                 <button
@@ -198,23 +202,9 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                                     Save request
                                 </button>
 
-                            </div>
-
-                            {/* Button to add next request
-                            <div className="form-item">
-                                <button
-                                    hidden
-                                    className="add-button"
-                                    onClick={() => {
-
-                                    }}
-
-                                >
-                                    Add new
-                                </button>
-                            </div> */}
                         </div>
-                    </div>
+                        </div>
+
                     <br />
 
                     {/* Input fields for url parameters */}
@@ -254,7 +244,29 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                         );
                     })}
                     <br />
+
+                    <div className="form-row">
+
+                        {/* Input for raw request body */}
+                        <div className="form-item">
+                            <label className="label-style" htmlFor="text">
+                                Raw request body
+                            </label>
+                            <input
+                                className="input-field"
+                                type="text"
+                                id="body"
+                                required
+                                value={body}
+                                onChange={(e) => {
+                                    setBody(e.target.value);
+                                }}
+                            /></div>
+
+
+
                     {/* Input field for Raw response */}
+                        <div className="form-item">
                     <label className="label-style" htmlFor="text">
                         Raw response
                     </label>
@@ -268,7 +280,8 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                             setRes(e.target.value);
                         }}
                     />
-
+                        </div>
+                    </div>
 
 
 

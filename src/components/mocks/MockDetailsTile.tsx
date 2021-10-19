@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import APIService from "../../services/api_service";
 import Mock from "../../types/mock";
 import RequestType from "../../types/request_type";
@@ -35,11 +35,16 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
     return (<>
         <h6>Endpoint : {props.request.endPoint}</h6>
         <h6>Method : {props.request.method}</h6>
+
         <h5>Params :</h5>
         {<div><pre>{JSON.stringify(props.request.params, null, 2)}</pre></div>}
 
+        <h5>Body :</h5>
+        {<div><pre>{JSON.stringify(props.request.body, null, 2)}</pre></div>}
+
         <h5>Response :</h5>
         {<div><pre>{JSON.stringify(props.request.response, null, 2)}</pre></div>}
+
         <button onClick={() => deleteRequest()}>Delete</button>
         <hr />
     </>
