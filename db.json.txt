@@ -29,6 +29,7 @@
         "name": "a",
         "age": 10
       },
+      "endpoint": "/api",
       "response": {
         "name": "a",
         "age": 10
@@ -42,6 +43,7 @@
         "name": "a",
         "age": 10
       },
+      "endpoint": "/api",
       "response": {
         "name": "a",
         "age": 10
@@ -55,6 +57,7 @@
         "name": "a",
         "age": 10
       },
+      "endpoint": "/api",
       "response": {
         "name": "a",
         "age": 10
@@ -64,6 +67,7 @@
       "id": 4,
       "method": "PUT",
       "status": 200,
+      "endpoint": "/api",
       "params": {
         "name": "a",
         "age": 10
