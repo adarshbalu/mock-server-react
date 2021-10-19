@@ -1,28 +1,29 @@
-
-import React, { ChangeEvent } from "react";
-import { FunctionComponent, useState } from "react";
+import { ChangeEvent, FunctionComponent, useState } from "react";
 import { useHistory } from "react-router-dom";
 import APIService from "../../services/api_service";
-import { METHODLIST } from "../../types/methods";
 import Mock from "../../types/mock";
 import RequestType from "../../types/request_type";
-import URL from "../../utils/urls";
 import Util from "../../utils/util";
-import '../create/CreateNew.css';
+import URL from "../../utils/urls";
+import { METHODLIST } from "../../types/methods";
+import React from "react";
 
-interface CreateNewProps {
-
+interface AddRequestProps {
 }
 
+interface StateType {
+    mock: Mock;
+}
 
-const CreateNew: FunctionComponent<CreateNewProps> = () => {
-    const [name, setName] = useState("");
+const AddRequest: FunctionComponent<AddRequestProps> = () => {
+
+    const history = useHistory<StateType>();
+    const mock = history.location.state.mock;
     const [method, setMethod] = useState("GET");
     const [endPoint, setEndPoint] = useState(`/api`);
     const [paramsInputList, setParamsInputList] = useState([{ key: "", value: "" }]);
     let params = {};
     const [res, setRes] = useState("");
-    const history = useHistory();
 
 
     // handle params input change
@@ -54,7 +55,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
     const handleSubmit = async () => {
 
-        if (name === "" || method === "" || endPoint === "" || res === "") {
+        if (method === "" || endPoint === "" || res === "") {
             alert("All fields required");
 
         } else if (endPoint.trim()[0] !== '/') {
@@ -86,13 +87,12 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
                 const newRequst = await APIService.post(URL.REQUEST_PATH, requestData) as RequestType;
                 const mockServerData: Mock = {
-                    name: name,
-                    requests: [newRequst.id!]
+                    ...mock,
+                    requests: [...mock.requests, newRequst.id!]
 
                 };
 
-
-                await APIService.post(URL.MOCK_PATH, mockServerData);
+                await APIService.put(URL.MOCK_PATH + `/${mock.id}`, mockServerData);
 
             } catch (e) {
                 console.log(e);
@@ -106,24 +106,8 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     return (
         <>
             <section className="create-new">
-                <h3>Create new Mock Server</h3>
-
+                <h3>Add new request to {mock.name}</h3>
                 <form>
-
-                    {/* Mock server name input */}
-                    <label className="label-style" htmlFor="text">
-                        Mock server name
-                    </label>
-                    <input
-                        className="input-field"
-                        type="text"
-                        id="name"
-                        required
-                        value={name}
-                        onChange={(e) => {
-                            setName(e.target.value);
-                        }}
-                    />
 
 
                     <div className="form-row">
@@ -200,19 +184,6 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
                             </div>
 
-                            {/* Button to add next request
-                            <div className="form-item">
-                                <button
-                                    hidden
-                                    className="add-button"
-                                    onClick={() => {
-
-                                    }}
-
-                                >
-                                    Add new
-                                </button>
-                            </div> */}
                         </div>
                     </div>
                     <br />
@@ -224,31 +195,32 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                     {paramsInputList.map((x, i) => {
                         return (
                             <>
-                                <div className="form-row">
+                                <div className="form-row" key={i}>
 
-                                <input
+                                    <input
                                         className="form-item"
-                                    name="key"
-                                    placeholder="Enter param"
-                                    value={x.key}
-                                    onChange={e => handleInputChange(e, i)}
-                                />
-                                <input
-                                    name="value"
+                                        name="key"
+
+                                        placeholder="Enter param"
+                                        value={x.key}
+                                        onChange={e => handleInputChange(e, i)}
+                                    />
+                                    <input
+                                        name="value"
                                         className="form-item"
-                                    placeholder="Enter param value"
-                                    value={x.value}
-                                    onChange={e => handleInputChange(e, i)}
-                                />
+                                        placeholder="Enter param value"
+                                        value={x.value}
+                                        onChange={e => handleInputChange(e, i)}
+                                    />
                                     <div className="form-item">
 
                                         {paramsInputList.length !== 1 && <button
-                                        onClick={() => handleRemoveClick(i)}>Remove</button>}
+                                            onClick={() => handleRemoveClick(i)}>Remove</button>}
 
+
+                                    </div>
 
                                 </div>
-
-                            </div>
                                 {paramsInputList.length - 1 === i && <button style={{ marginTop: "10px", marginBottom: "20px" }} onClick={handleAddClick}>Add param</button>}
                             </>
                         );
@@ -278,7 +250,4 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     );
 }
 
-
-
-
-export default CreateNew;
+export default AddRequest;

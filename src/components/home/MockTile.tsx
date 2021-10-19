@@ -12,11 +12,22 @@ const MockTile: FunctionComponent<MockTileProps> = (props: MockTileProps) => {
     const { request } = useContext(RequestContext);
     const mock = props.mock;
 
-    const getAllRequests = (): RequestType => {
-        const data = request.find((r) => {
-            return r.id === mock.requests[0];
-        }) as RequestType;
-        return data;
+    const getAllRequests = (): Array<RequestType> => {
+
+        const requestsList: RequestType[] = [];
+        request.forEach((r) => {
+            if (mock.requests.includes(r.id!)) {
+                requestsList.push(r);
+            }
+
+
+        });
+
+        return requestsList;
+        // const data = request.find((r) => {
+        //     return mock.requests.find((m) => { return r.id === m; });
+        // }) as RequestType;
+        // return data;
     }
 
     return (

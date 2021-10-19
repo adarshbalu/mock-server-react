@@ -6,6 +6,7 @@ import URL from "../utils/urls";
 
 export type RequestContextType = {
     request: Array<RequestType>;
+    setRequest: any;
 }
 
 type Props = {
@@ -13,7 +14,8 @@ type Props = {
 };
 
 const initialState: RequestContextType = {
-    request: []
+    request: [],
+    setRequest: null
 }
 
 export const RequestContext = createContext<RequestContextType>(initialState);
@@ -36,7 +38,7 @@ export const RequestContextProvider = (props: Props) => {
     }, []);
 
     return (
-        <RequestContext.Provider value={{ request }}>
+        <RequestContext.Provider value={{ request, setRequest }}>
             {props.children}
         </RequestContext.Provider>
     );

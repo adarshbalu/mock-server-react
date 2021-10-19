@@ -7,6 +7,7 @@ import CreateNew from "./create/CreateNew";
 import { MocksContextProvider } from "../contexts/mocks_contex";
 import MockDetails from "./mocks/MockDetails";
 import { RequestContextProvider } from "../contexts/requests_context";
+import AddRequest from "./mocks/AddRequest";
 function App() {
   return (
     <MocksContextProvider>
@@ -14,7 +15,7 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/">
-              <LandingPage />
+              <Home />
             </Route>
             <Route path="/home">
               <Home />
@@ -25,7 +26,9 @@ function App() {
             <Route path="/view">
               <MockDetails />
             </Route>
-            <Route path="/api"></Route>
+            <Route path="/add">
+              <AddRequest />
+            </Route>
           </Switch>
         </Router>
       </RequestContextProvider>
