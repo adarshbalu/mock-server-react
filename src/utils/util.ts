@@ -25,6 +25,5 @@ export default class Util {
         const stringList = url.split("?");
         const urlSearchParams = new URLSearchParams(stringList[1]);
         return (Object.fromEntries(urlSearchParams.entries()));
-
     }
 }
