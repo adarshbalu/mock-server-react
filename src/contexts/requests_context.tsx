@@ -23,8 +23,14 @@ export const RequestContextProvider = (props: Props) => {
 
     useEffect(() => {
         const getRequest = async () => {
+            try {
             const allRequest: RequestType[] = await APIService.get(URL.REQUEST_PATH) as RequestType[];
-            setRequest(allRequest);
+                setRequest(allRequest);
+            }
+            catch (e) {
+                console.log(e);
+                setRequest([]);
+            }
         }
         getRequest();
     }, []);

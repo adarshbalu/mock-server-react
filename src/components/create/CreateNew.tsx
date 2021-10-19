@@ -131,7 +131,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                                         }
                                         else {
                                             if (splitParams()) {
-
+                                                try {
                                                 let requestData: RequestType = {
                                                     method: method,
                                                     status: 200,
@@ -153,8 +153,15 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
 
                                                 await APIService.post(URL.MOCK_PATH, mockServerData);
+
+                                                } catch (e) {
+                                                    console.log(e);
+
+                                                }
                                                 pushPath();
-                                            } else {
+                                            }
+
+                                            else {
                                                 alert("Invalid URL");
                                             }
                                         }
