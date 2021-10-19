@@ -5,5 +5,6 @@ export default interface RequestType {
     status: number;
     method: string;
     params: {},
+    endPoint: string,
     response: {} | string | number | boolean
 }

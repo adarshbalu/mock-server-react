@@ -57,6 +57,8 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
         if (name === "" || method === "" || endPoint === "" || res === "") {
             alert("All fields required");
 
+        } else if (endPoint.trim()[0] !== '/') {
+            setEndPoint('/' + endPoint);
         }
         else {
 
@@ -72,6 +74,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                 let requestData: RequestType = {
                     method: method,
                     status: 200,
+                    endPoint: endPoint,
                     params: params,
                     response: res,
 
