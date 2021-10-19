@@ -19,7 +19,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     const [name, setName] = useState("");
     const [method, setMethod] = useState("GET");
     const [endPoint, setEndPoint] = useState(`/api`);
-    const [inputList, setInputList] = useState([{ key: "", value: "" }]);
+    const [paramsInputList, setParamsInputList] = useState([{ key: "", value: "" }]);
     let params = {};
     const [res, setRes] = useState("");
     const history = useHistory();
@@ -28,21 +28,21 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     // handle params input change
     const handleInputChange = (e: any, index: number) => {
         const { name, value } = e.target;
-        const list: any[] = [...inputList];
+        const list: any[] = [...paramsInputList];
         list[index][name] = value;
-        setInputList(list);
+        setParamsInputList(list);
     };
 
     // handle click event of the Remove button
     const handleRemoveClick = (index: number) => {
-        const list = [...inputList];
+        const list = [...paramsInputList];
         list.splice(index, 1);
-        setInputList(list);
+        setParamsInputList(list);
     };
 
     // handle click event of the Add button
     const handleAddClick = () => {
-        setInputList([...inputList, { key: "", value: "" }]);
+        setParamsInputList([...paramsInputList, { key: "", value: "" }]);
     };
 
 
@@ -62,7 +62,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
             try {
                 params = {};
-                inputList.forEach((input) => {
+                paramsInputList.forEach((input) => {
                     params = {
                         ...params,
                         [input.key]: input.value
@@ -194,7 +194,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
                             </div>
 
-                            {/* Button to add next request         */}
+                            {/* Button to add next request
                             <div className="form-item">
                                 <button
                                     hidden
@@ -206,7 +206,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                                 >
                                     Add new
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <br />
@@ -215,12 +215,13 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                     <label className="label-style" htmlFor="text">
                         Parameters
                     </label>
-                    {inputList.map((x, i) => {
+                    {paramsInputList.map((x, i) => {
                         return (
-
-                            <div>
+                            <>
+                                <div className="form-row">
 
                                 <input
+                                        className="form-item"
                                     name="key"
                                     placeholder="Enter param"
                                     value={x.key}
@@ -228,18 +229,22 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                                 />
                                 <input
                                     name="value"
+                                        className="form-item"
                                     placeholder="Enter param value"
                                     value={x.value}
                                     onChange={e => handleInputChange(e, i)}
                                 />
-                                <div className="btn-box">
+                                    <div className="form-item">
 
-                                    {inputList.length !== 1 && <button
+                                        {paramsInputList.length !== 1 && <button
                                         onClick={() => handleRemoveClick(i)}>Remove</button>}
 
-                                    {inputList.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
+
                                 </div>
+
                             </div>
+                                {paramsInputList.length - 1 === i && <button style={{ marginTop: "10px", marginBottom: "20px" }} onClick={handleAddClick}>Add param</button>}
+                            </>
                         );
                     })}
                     <br />
