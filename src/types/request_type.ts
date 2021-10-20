@@ -7,5 +7,6 @@ export default interface RequestType {
     params: {};
     body: string;
     endPoint: string;
+    mockName: string;
     response: {} | string | number | boolean;
 }

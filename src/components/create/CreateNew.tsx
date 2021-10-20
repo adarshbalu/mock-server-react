@@ -79,6 +79,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                     endPoint: endPoint,
                     params: params,
                     response: res,
+                    mockName: name
 
                 };
                 if (Util.checkForJSON(res)) {

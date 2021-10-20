@@ -80,7 +80,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
                     endPoint: endPoint,
                     params: params,
                     response: res,
-
+                    mockName: mock.name
                 };
                 if (Util.checkForJSON(res)) {
                     requestData = { ...requestData, response: JSON.parse(res) }
