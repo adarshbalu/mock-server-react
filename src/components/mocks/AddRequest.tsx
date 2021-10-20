@@ -20,11 +20,11 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
     const history = useHistory<StateType>();
     const mock = history.location.state.mock;
     const [method, setMethod] = useState("GET");
-    const [endPoint, setEndPoint] = useState(`/api`);
+    const [endPoint, setEndPoint] = useState(`api`);
     const [paramsInputList, setParamsInputList] = useState([{ key: "", value: "" }]);
     let params = {};
-    const [res, setRes] = useState("");
-    const [body, setBody] = useState("");
+    const [res, setRes] = useState("{}");
+    const [body, setBody] = useState("{}");
 
 
     // handle params input change
@@ -55,12 +55,12 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
     }
 
     const handleSubmit = async () => {
-
+        const trimEndpoint = endPoint.trim();
         if (method === "" || endPoint === "" || res === "") {
             alert("All fields required");
 
-        } else if (endPoint.trim()[0] !== '/') {
-            setEndPoint('/' + endPoint);
+        } else if (trimEndpoint[0] === '/' || trimEndpoint[trimEndpoint.length - 1] === '/' || trimEndpoint.includes("/")) {
+            alert("Invalid endpoint");
         }
         else {
 

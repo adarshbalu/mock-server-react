@@ -18,11 +18,11 @@ interface CreateNewProps {
 const CreateNew: FunctionComponent<CreateNewProps> = () => {
     const [name, setName] = useState("");
     const [method, setMethod] = useState("GET");
-    const [endPoint, setEndPoint] = useState(`/api`);
-    const [body, setBody] = useState("");
+    const [endPoint, setEndPoint] = useState(`api`);
+    const [body, setBody] = useState("{}");
     const [paramsInputList, setParamsInputList] = useState([{ key: "", value: "" }]);
     let params = {};
-    const [res, setRes] = useState("");
+    const [res, setRes] = useState("{}");
     const history = useHistory();
 
 
@@ -54,12 +54,13 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     }
 
     const handleSubmit = async () => {
+        const trimEndpoint = endPoint.trim();
 
-        if (name === "" || method === "" || endPoint === "" || res === "") {
+        if (name.trim() === "" || method.trim() === "" || trimEndpoint === "" || res.trim() === "") {
             alert("All fields required");
 
-        } else if (endPoint.trim()[0] !== '/') {
-            setEndPoint('/' + endPoint);
+        } else if (trimEndpoint[0] === '/' || trimEndpoint[trimEndpoint.length - 1] === '/' || trimEndpoint.includes("/")) {
+            alert("Invalid endpoint");
         }
         else {
 
