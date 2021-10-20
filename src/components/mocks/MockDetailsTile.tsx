@@ -77,7 +77,7 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
     }
     return (<>
         <section className="mock-details-card">
-        <h6>URL : {getAPIURL()}</h6>
+            {request.method === "GET" ? <h6>URL : <a href={getAPIURL()} target="__blank">{getAPIURL()}</a></h6> : <h6>URL : {getAPIURL()}</h6>}
         <h6>Endpoint : {request.endPoint}</h6>
         <h6>Method : {request.method}</h6>
 
