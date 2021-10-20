@@ -9,6 +9,8 @@ import '../mocks/Mock.css';
 import URL from "../../utils/urls";
 import MockDetailsTile from "./MockDetailsTile";
 import { RequestContext } from "../../contexts/requests_context";
+import { Button } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 
 interface MockDetailsProps {
 
@@ -50,10 +52,13 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
         <section className="mock-details">
             <div className="mock-details-row">
             <h2>{mock.name}</h2>
-                <Link to={{ pathname: "/add", state: { mock: mock, } }}>Add new request</Link>
+
+                <Link to={{ pathname: "/add", state: { mock: mock, } }}><Button variant="contained" startIcon={<AddIcon />} color="success">
+                    Add new Request
+                </Button></Link>
             </div>
             {req.map((request) => {
-                return <MockDetailsTile mock={mock} request={request} />
+                return <div key={request.id}><MockDetailsTile mock={mock} request={request} /></div>
             })}
 
 

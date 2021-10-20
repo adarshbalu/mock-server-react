@@ -8,6 +8,8 @@ import Mock from "../../types/mock";
 import RequestType from "../../types/request_type";
 import URL from "../../utils/urls";
 import Util from "../../utils/util";
+import SaveIcon from '@mui/icons-material/Save';
+import { Button } from "@mui/material";
 import '../create/CreateNew.css';
 
 interface CreateNewProps {
@@ -188,24 +190,8 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                         </div>
 
 
-                            {/* Button to Save         */}
-                            <div className="form-item">
-                                <button
-                                    className="save-button"
-                                    onClick={async (e) => {
-                                        e.preventDefault();
-                                        handleSubmit();
 
-
-
-                                    }}
-
-                                >
-                                    Save request
-                                </button>
-
-                        </div>
-                        </div>
+                    </div>
 
                     <br />
 
@@ -219,7 +205,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                                 <div className="form-row">
 
                                 <input
-                                        className="form-item"
+                                        className="form-item input-medium"
                                     name="key"
                                     placeholder="Enter param"
                                     value={x.key}
@@ -227,7 +213,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                                 />
                                 <input
                                     name="value"
-                                        className="form-item"
+                                        className="form-item input-medium"
                                     placeholder="Enter param value"
                                     value={x.value}
                                     onChange={e => handleInputChange(e, i)}
@@ -285,6 +271,18 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                         </div>
                     </div>
 
+                    {/* Button to Save         */}
+                    <div className="save-button">
+
+
+                        <Button variant="contained" startIcon={<SaveIcon />} onClick={async (e) => {
+                            e.preventDefault();
+                            handleSubmit();
+                        }} color="info">
+
+                            Save mock server
+                        </Button>
+                    </div>
 
 
                 </form>

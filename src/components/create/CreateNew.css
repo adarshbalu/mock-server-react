@@ -34,6 +34,19 @@
 }
 
 .save-button {
-    background-color: #37474F;
-    color: #fff;
+display: flex;
+justify-content:center;
+margin-top: 20px;
+}
+
+input.input-medium{
+height: 30px;
+}
+
+input.input-large{
+height: 50px;
+}
+
+.create-new input{
+    width:100%;
 }

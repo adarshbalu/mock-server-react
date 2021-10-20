@@ -1,3 +1,4 @@
+import Button from "@mui/material/Button";
 import { FunctionComponent, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { MocksContext } from "../../contexts/mocks_contex";
@@ -6,6 +7,8 @@ import APIService from "../../services/api_service";
 import Mock from "../../types/mock";
 import RequestType from "../../types/request_type";
 import URL from "../../utils/urls";
+import DeleteIcon from '@mui/icons-material/Delete';
+import '../mocks/Mock.css';
 
 interface MockDetailsTileProps {
     mock: Mock;
@@ -73,7 +76,7 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
         return finalURL;
     }
     return (<>
-
+        <section className="mock-details-card">
         <h6>URL : {getAPIURL()}</h6>
         <h6>Endpoint : {request.endPoint}</h6>
         <h6>Method : {request.method}</h6>
@@ -87,8 +90,12 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
         <h5>Response :</h5>
         {<div><pre>{JSON.stringify(request.response, null, 2)}</pre></div>}
 
-        <button onClick={() => deleteRequest()}>Delete</button>
-        <hr />
+            <div className="delete-button-row">
+                <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteRequest()}>
+                    Delete
+                </Button>
+            </div>
+        </section>
     </>
     );
 }

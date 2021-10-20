@@ -20,6 +20,7 @@
 
 .mock-details {
     margin: 10px;
+    margin-top: 30px;
     
 }
 
@@ -34,4 +35,17 @@
 .mock-details-row > h2{
 margin: 0;
 padding: 0;
+font-weight: 400;
+}
+
+.delete-button-row{
+display: flex;
+justify-content:center;
+}
+
+.mock-details-card{
+    margin:30px;
+    padding:8px;
+    border: 0.5px 0.5px 0.5px 0.5px;
+
 }
