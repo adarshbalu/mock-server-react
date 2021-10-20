@@ -10,6 +10,7 @@ import URL from "../../utils/urls";
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../mocks/Mock.css';
 
+
 interface MockDetailsTileProps {
     mock: Mock;
     request: RequestType;

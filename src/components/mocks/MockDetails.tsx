@@ -53,9 +53,12 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
             <div className="mock-details-row">
             <h2>{mock.name}</h2>
 
-                <Link to={{ pathname: "/add", state: { mock: mock, } }}><Button variant="contained" startIcon={<AddIcon />} color="success">
-                    Add new Request
-                </Button></Link>
+
+                <Link to={{ pathname: "/add", state: { mock: mock, } }}>
+                        <Button variant="contained" startIcon={<AddIcon />} color="success"              className="add-request-button">
+                            Add new Request
+                        </Button>
+                </Link>
             </div>
             {req.map((request) => {
                 return <div key={request.id}><MockDetailsTile mock={mock} request={request} /></div>

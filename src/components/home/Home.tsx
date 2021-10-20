@@ -41,11 +41,14 @@ const Home: FunctionComponent<HomeProps> = () => {
 
     return (<>
         <section className="home-section">
-            <h1>Mock servers</h1>
-            <MocksList />
+            <div className="home-title-row">
+                <h1>Mock servers</h1>
             <div className="create-new-button-row">
                 <Button variant="contained" className="create-new-button" onClick={() => history.push("/create")}>Add new mock server</Button>
             </div>
+            </div>
+            <MocksList />
+
         </section>
 
     </>);
