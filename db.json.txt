@@ -3,84 +3,150 @@
     {
       "id": 1,
       "name": "json-server",
-      "requests": [
-        1,
-        2,
-        3,
-        4
-      ]
+      "requests": [1, 3, 4]
     },
     {
       "id": 2,
       "name": "new-mock",
-      "requests": [
-        1,
-        3,
-        4
-      ]
+      "requests": [3]
+    },
+    {
+      "name": "Fresh server",
+      "requests": [9, 10],
+      "id": 3
+    },
+    {
+      "name": "kajsdk",
+      "requests": [11, 12],
+      "id": 4
     }
   ],
   "requests": [
     {
-      "id": 1,
+      "id": 3,
+      "method": "DELETE",
+      "mockName": "json-server",
+      "status": 200,
+      "params": {
+        "name": "22a",
+        "age": 102
+      },
+      "body": {},
+      "endPoint": "api",
+      "response": {
+        "name": "a31",
+        "age": 120
+      }
+    },
+    {
       "method": "GET",
       "status": 200,
-       "body": {},
+      "body": {},
+      "endPoint": "api",
+      "mockName": "new-mock",
       "params": {
-        "name": "a",
-        "age": 10
+        "name": "adarsh"
       },
-      "endpoint": "/api",
       "response": {
-        "name": "a",
-        "age": 10
-      }
+        "name": "Adarsh"
+      },
+      "id": 5
     },
     {
-      "id": 2,
-       "body": {},
-      "method": "POST",
+      "method": "GET",
       "status": 200,
+      "body": {},
+      "endPoint": "api",
+      "mockName": "new-mock",
       "params": {
-        "name": "a",
-        "age": 10
+        "asd": "asd"
       },
-      "endpoint": "/api",
-      "response": {
-        "name": "a",
-        "age": 10
-      }
+      "response": {},
+      "id": 6
     },
     {
-      "id": 3,
-       "body": {},
-      "method": "DELETE",
-      "status": 200,
-      "params": {
-        "name": "a",
-        "age": 10
-      },
-      
-      "endpoint": "/api",
-      "response": {
-        "name": "a",
-        "age": 10
-      }
-    },
-    {
-      "id": 4,
       "method": "PUT",
       "status": 200,
-       "body": {},
-      "endpoint": "/api",
+      "body": {},
+      "endPoint": "api",
       "params": {
-        "name": "a",
-        "age": 10
+        "as": "asd"
       },
       "response": {
-        "name": "a",
-        "age": 10
-      }
+        "status": "data"
+      },
+      "id": 7
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "body": {},
+      "endPoint": "setData",
+      "mockName": "json-server",
+      "params": {
+        "asdadasd": "asd"
+      },
+      "response": {},
+      "id": 8
+    },
+    {
+      "method": "POST",
+      "status": 200,
+      "body": {
+        "new": "old"
+      },
+      "endPoint": "getStatus",
+      "params": {
+        "value": "10",
+        "data": "good"
+      },
+      "response": {
+        "status": "done"
+      },
+      "mockName": "Fresh server",
+      "id": 9
+    },
+    {
+      "method": "POST",
+      "status": 200,
+      "body": {},
+      "endPoint": "getStatus",
+      "params": {
+        "data": "5"
+      },
+      "response": {
+        "status": "POST"
+      },
+      "mockName": "Fresh server",
+      "id": 10
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "body": {},
+      "endPoint": "getData",
+      "params": {
+        "value": "10"
+      },
+      "response": {
+        "status": "success"
+      },
+      "mockName": "kajsdk",
+      "id": 11
+    },
+    {
+      "method": "POST",
+      "status": 200,
+      "body": {},
+      "endPoint": "getData",
+      "params": {
+        "bb": "11"
+      },
+      "response": {
+        "status": "POST"
+      },
+      "mockName": "kajsdk",
+      "id": 12
     }
   ]
 }

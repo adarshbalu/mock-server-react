@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { RequestContext } from "../../contexts/requests_context";
 import Mock from "../../types/mock";
 import RequestType from "../../types/request_type";
-
+import '../mocks/Mock.css';
 interface MockTileProps {
     mock: Mock
 }
@@ -24,19 +24,15 @@ const MockTile: FunctionComponent<MockTileProps> = (props: MockTileProps) => {
         });
 
         return requestsList;
-        // const data = request.find((r) => {
-        //     return mock.requests.find((m) => { return r.id === m; });
-        // }) as RequestType;
-        // return data;
     }
 
     return (
-        <>
-            <Link to={{ pathname: "/view", state: { mock: props.mock, request: getAllRequests() } }}>
-                <h4>
+        <><div className="mock-list-item">
+            <Link className="mock-list-item-link" to={{ pathname: "/view", state: { mock: props.mock, request: getAllRequests() } }}>
+
                     {props.mock.name}
-                </h4>
-            </Link>
+
+            </Link> </div>
         </>
     );
 }

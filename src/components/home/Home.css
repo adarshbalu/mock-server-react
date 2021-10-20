@@ -1,0 +1,17 @@
+.home-section{
+    margin: 10px;
+}
+
+.home-section > h1 {
+    font-weight:500;
+    font-size:1.8rem;
+}
+
+.create-new-button-row{
+    display:flex;
+    justify-content:center;
+}
+
+.create-new-button{
+ text-transform: capitalize;
+}

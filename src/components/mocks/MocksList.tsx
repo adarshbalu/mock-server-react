@@ -10,9 +10,15 @@ interface MocksListProps {
 const MocksList: FunctionComponent<MocksListProps> = () => {
     const { mocks } = useContext(MocksContext);
     return (
-        <><div className="mock-list">
-            {mocks.map((mock) => { return <MockTile mock={mock} key={mock.name} /> })}
-        </div>
+        <>
+            {
+                mocks.length === 0 ?
+                    <h6>Empty</h6> :
+                    <div className="mock-list">
+                        {mocks.map((mock) => { return <MockTile mock={mock} key={mock.name} /> })}
+                    </div>
+            }
+
         </>
     );
 }
