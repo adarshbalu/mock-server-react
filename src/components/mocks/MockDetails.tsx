@@ -48,6 +48,15 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const renderRequestsList = () => {
+        let i = 0;
+
+        return req.map((request) => {
+            i++;
+            return <div key={request.id}><MockDetailsTile mock={mock} request={request} index={i} /></div>
+        });
+    }
+
     return (<>
         <section className="mock-details">
             <div className="mock-details-row">
@@ -60,9 +69,7 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
                         </Button>
                 </Link>
             </div>
-            {req.map((request) => {
-                return <div key={request.id}><MockDetailsTile mock={mock} request={request} /></div>
-            })}
+            {renderRequestsList()}
 
 
 

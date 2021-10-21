@@ -4,10 +4,11 @@ import { RequestContext } from "../../contexts/requests_context";
 import Mock from "../../types/mock";
 import RequestType from "../../types/request_type";
 import '../mocks/Mock.css';
-import StorageIcon from '@mui/icons-material/Storage';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 interface MockTileProps {
-    mock: Mock
+    mock: Mock;
+    index: number;
 }
 
 const MockTile: FunctionComponent<MockTileProps> = (props: MockTileProps) => {
@@ -34,13 +35,13 @@ const MockTile: FunctionComponent<MockTileProps> = (props: MockTileProps) => {
                 <div className="mock-list-item">
                     <div>
 
+                        <i>{props.index}</i>
 
-
-                        <strong>{props.mock.name}</strong> - Total requests : {props.mock.requests.length}
+                        {props.mock.name} <span>({props.mock.requests.length})</span>
 
 
                     </div>
-                    <StorageIcon />
+                    <ArrowRightIcon color="secondary" />
                 </div>
             </Link>
         </>

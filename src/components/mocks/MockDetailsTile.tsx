@@ -10,10 +10,10 @@ import URL from "../../utils/urls";
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../mocks/Mock.css';
 
-
 interface MockDetailsTileProps {
     mock: Mock;
     request: RequestType;
+    index: number;
 }
 
 const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDetailsTileProps) => {
@@ -78,7 +78,27 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
     }
 
     const getAPIURLElement = () => {
-        return request.method === "GET" ? <a href={getAPIURL()} target="__blank">{getAPIURL()}</a> : getAPIURL();
+        const apiurl = getAPIURL();
+        if (request.method === "POST") {
+
+            // <form method="POST"
+            //     action={apiurl}
+            //     name="postForm" id="postForm" hidden></form>
+            // const values = Object.values(request.body);
+            // let i: number = 0;
+            // for (const b in request.body) {
+
+            // }
+            return apiurl;
+        }
+        else if (request.method === "GET") {
+
+            return <a href={apiurl} target="__blank">{apiurl}</a>;
+        }
+        else {
+            return apiurl;
+        }
+
     }
 
     return (<>
