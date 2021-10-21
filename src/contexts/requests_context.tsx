@@ -6,6 +6,7 @@ import URL from "../utils/urls";
 
 export type RequestContextType = {
     request: Array<RequestType>;
+    setRequest: any;
 }
 
 type Props = {
@@ -13,7 +14,8 @@ type Props = {
 };
 
 const initialState: RequestContextType = {
-    request: []
+    request: [],
+    setRequest: null
 }
 
 export const RequestContext = createContext<RequestContextType>(initialState);
@@ -23,14 +25,20 @@ export const RequestContextProvider = (props: Props) => {
 
     useEffect(() => {
         const getRequest = async () => {
+            try {
             const allRequest: RequestType[] = await APIService.get(URL.REQUEST_PATH) as RequestType[];
-            setRequest(allRequest);
+                setRequest(allRequest);
+            }
+            catch (e) {
+                console.log(e);
+                setRequest([]);
+            }
         }
         getRequest();
     }, []);
 
     return (
-        <RequestContext.Provider value={{ request }}>
+        <RequestContext.Provider value={{ request, setRequest }}>
             {props.children}
         </RequestContext.Provider>
     );

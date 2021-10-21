@@ -4,6 +4,9 @@ export default interface RequestType {
     id?: number;
     status: number;
     method: string;
-    params: {},
-    response: {} | string | number | boolean
+    params: {};
+    body: {};
+    endPoint: string;
+    mockName: string;
+    response: {} | string | number | boolean;
 }

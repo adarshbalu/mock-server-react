@@ -1,37 +1,39 @@
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import React, { ChangeEvent } from "react";
-import { FunctionComponent, useState } from "react";
+import { ChangeEvent, FunctionComponent, useState } from "react";
 import { useHistory } from "react-router-dom";
 import APIService from "../../services/api_service";
-import { METHODLIST } from "../../types/methods";
 import Mock from "../../types/mock";
 import RequestType from "../../types/request_type";
-import URL from "../../utils/urls";
 import Util from "../../utils/util";
-import SaveIcon from '@mui/icons-material/Save';
-import { Button, IconButton, } from "@mui/material";
-import '../create/CreateNew.css';
+import URL from "../../utils/urls";
+import { METHODLIST } from "../../types/methods";
+import React from "react";
+import { Button, IconButton } from "@mui/material";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import AddIcon from '@mui/icons-material/Add';
-interface CreateNewProps {
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import SaveIcon from '@mui/icons-material/Save';
 
+interface AddRequestProps {
 }
 
+interface StateType {
+    mock: Mock;
+}
 
-const CreateNew: FunctionComponent<CreateNewProps> = () => {
-    const [name, setName] = useState("");
+const AddRequest: FunctionComponent<AddRequestProps> = () => {
+
+    const history = useHistory<StateType>();
+    const mock = history.location.state.mock;
     const [method, setMethod] = useState("GET");
     const [endPoint, setEndPoint] = useState(`api`);
     const [body, setBody] = useState("{}");
     const [paramsInputList, setParamsInputList] = useState([{ key: "", value: "" }, { key: "", value: "" }, { key: "", value: "" }]);
     let params = {};
     const [res, setRes] = useState("{}");
-    const history = useHistory();
-
 
     // reset all input fields
     const resetAllFields = () => {
-        setName("");
+
         setMethod("GET");
         setEndPoint("api");
         setBody("{}");
@@ -70,8 +72,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
     const handleSubmit = async () => {
         const trimEndpoint = endPoint.trim();
-
-        if (name.trim() === "" || method.trim() === "" || trimEndpoint === "" || res.trim() === "") {
+        if (method.trim() === "" || trimEndpoint === "" || res.trim() === "") {
             alert("All fields required");
 
         } else if (trimEndpoint[0] === '/' || trimEndpoint[trimEndpoint.length - 1] === '/' || trimEndpoint.includes("/")) {
@@ -83,10 +84,10 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                 params = {};
                 paramsInputList.forEach((input) => {
                     if (input.key.trim() !== "" && input.value.trim() !== "")
-                    params = {
-                        ...params,
-                        [input.key]: input.value
-                    };
+                        params = {
+                            ...params,
+                            [input.key]: input.value
+                        };
 
                 });
                 let requestData: RequestType = {
@@ -96,26 +97,23 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                     endPoint: endPoint,
                     params: params,
                     response: res,
-                    mockName: name
-
+                    mockName: mock.name
                 };
                 if (Util.checkForJSON(res)) {
                     requestData = { ...requestData, response: JSON.parse(res) }
                 }
+
                 if (Util.checkForJSON(body)) {
                     requestData = { ...requestData, body: JSON.parse(body) }
                 }
-
-
                 const newRequst = await APIService.post(URL.REQUEST_PATH, requestData) as RequestType;
                 const mockServerData: Mock = {
-                    name: name,
-                    requests: [newRequst.id!]
+                    ...mock,
+                    requests: [...mock.requests, newRequst.id!]
 
                 };
 
-
-                await APIService.post(URL.MOCK_PATH, mockServerData);
+                await APIService.put(URL.MOCK_PATH + `/${mock.id}`, mockServerData);
 
             } catch (e) {
                 console.log(e);
@@ -125,7 +123,6 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
         }
     }
-
 
     const renderMethodOptions = () => {
         return (
@@ -183,24 +180,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
         </div>;
     }
 
-    const renderNameInput = () => {
-        return (
-            <div className="form-item"><label className="label-style" htmlFor="text">
-                Server name
-            </label>
-                <input
-                    className="name-input-field"
-                    type="text"
-                    id="name"
-                    placeholder="Mock server name"
-                    required
-                    value={name}
-                    onChange={(e) => {
-                        setName(e.target.value);
-                    }}
-                /></div>
-        );
-    }
+
 
 
     const renderParamsInput = () => {
@@ -227,17 +207,17 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
                                     <input
                                         className="input-medium"
-                                    name="key"
-                                    placeholder="Enter param"
-                                    value={x.key}
-                                    onChange={e => handleInputChange(e, i)}
-                                />
-                                <input
-                                    name="value"
+                                        name="key"
+                                        placeholder="Enter param"
+                                        value={x.key}
+                                        onChange={e => handleInputChange(e, i)}
+                                    />
+                                    <input
+                                        name="value"
                                         className=" input-medium"
-                                    placeholder="Enter param value"
-                                    value={x.value}
-                                    onChange={e => handleInputChange(e, i)}
+                                        placeholder="Enter param value"
+                                        value={x.value}
+                                        onChange={e => handleInputChange(e, i)}
                                     />
 
 
@@ -261,20 +241,20 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
         return (
             <>
                 <div className="">
-                            <label className="label-style" htmlFor="text">
-                                Raw request body
-                            </label>
+                    <label className="label-style" htmlFor="text">
+                        Raw request body
+                    </label>
                     <textarea
                         className="input-large"
 
-                                id="body"
-                                required
+                        id="body"
+                        required
                         placeholder="{}"
-                                value={body}
-                                onChange={(e) => {
-                                    setBody(e.target.value);
-                                }}
-                            /></div>
+                        value={body}
+                        onChange={(e) => {
+                            setBody(e.target.value);
+                        }}
+                    /></div>
             </>
         );
     }
@@ -297,25 +277,38 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                             setRes(e.target.value);
                         }}
                     />
-                        </div>
+                </div>
             </>
+        );
+    }
+
+    const renderNameInput = () => {
+        return (
+            <div className="form-item"><label className="label-style" htmlFor="text">
+                Server name
+            </label>
+                <input className="name-input-field"
+                    type="text"
+                    id="name" readOnly
+                    placeholder="Mock server name"
+                    value={mock.name}
+                /></div>
         );
     }
 
 
     return (
         <>
-
             <div className="create-new-title-row">
-                <h3>Create new Mock Server</h3>
+                <h3>Add request to {mock.name}</h3>
                 <div className="action-buttons">
                     <Button variant="contained" color="warning" startIcon={<RefreshIcon />} onClick={resetAllFields}>
                         Reset
                     </Button>
                     <Button variant="contained" startIcon={<SaveIcon />} onClick={async (e) => {
-                            e.preventDefault();
-                            handleSubmit();
-                        }} color="info">
+                        e.preventDefault();
+                        handleSubmit();
+                    }} color="info">
                         Save
                     </Button>
                 </div>
@@ -369,11 +362,9 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                 </form>
 
             </section>
+
         </>
     );
 }
 
-
-
-
-export default CreateNew;
+export default AddRequest;

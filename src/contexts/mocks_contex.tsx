@@ -25,8 +25,14 @@ export const MocksContextProvider = (props: Props) => {
 
     useEffect(() => {
         const getMocks = async () => {
+            try {
             const allMocks: Mock[] = await APIService.get(URL.MOCK_PATH) as Mock[];
-            setMocks(allMocks);
+                setMocks(allMocks);
+            }
+            catch (e) {
+                console.log(e);
+                setMocks([]);
+            }
         }
         getMocks();
     }, []);

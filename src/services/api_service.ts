@@ -60,13 +60,12 @@ export default class APIService {
 
     static async delete(url: string, id: number): Promise<any> {
         try {
-            const res: Response = await fetch(url + id, {
+            const res: Response = await fetch(url + `/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-type": "application/json",
                 },
             });
-            console.log(res);
             if (res.ok) {
                 const data = await res.json();
                 return data;
