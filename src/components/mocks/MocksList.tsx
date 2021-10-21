@@ -22,7 +22,7 @@ const MocksList: FunctionComponent<MocksListProps> = () => {
         <> <div className="mock-list">
             {
                 mocks.length === 0 ?
-                    <h6>Empty</h6> :
+                    <h6>No mock servers found.</h6> :
                     <div>
                         {renderMocksList()}
                     </div>

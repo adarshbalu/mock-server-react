@@ -49,12 +49,18 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
     }, []);
 
     const renderRequestsList = () => {
+
+        if (req.length > 0) {
         let i = 0;
 
         return req.map((request) => {
             i++;
             return <div key={request.id}><MockDetailsTile mock={mock} request={request} index={i} /></div>
         });
+        }
+        else {
+            return <h5>No requests added.</h5>
+        }
     }
 
     return (<>
