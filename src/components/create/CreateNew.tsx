@@ -1,4 +1,4 @@
-
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import React, { ChangeEvent } from "react";
 import { FunctionComponent, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -9,9 +9,10 @@ import RequestType from "../../types/request_type";
 import URL from "../../utils/urls";
 import Util from "../../utils/util";
 import SaveIcon from '@mui/icons-material/Save';
-import { Button } from "@mui/material";
+import { Button, IconButton, } from "@mui/material";
 import '../create/CreateNew.css';
-
+import RefreshIcon from '@mui/icons-material/Refresh';
+import AddIcon from '@mui/icons-material/Add';
 interface CreateNewProps {
 
 }
@@ -22,10 +23,22 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     const [method, setMethod] = useState("GET");
     const [endPoint, setEndPoint] = useState(`api`);
     const [body, setBody] = useState("{}");
-    const [paramsInputList, setParamsInputList] = useState([{ key: "", value: "" }]);
+    const [paramsInputList, setParamsInputList] = useState([{ key: "", value: "" }, { key: "", value: "" }, { key: "", value: "" }]);
     let params = {};
     const [res, setRes] = useState("{}");
     const history = useHistory();
+
+
+    // reset all input fields
+    const resetAllFields = () => {
+        setName("");
+        setMethod("GET");
+        setEndPoint("api");
+        setBody("{}");
+        setParamsInputList([{ key: "", value: "" }]);
+        params = {};
+        setRes("{}");
+    }
 
 
     // handle params input change
@@ -69,6 +82,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
             try {
                 params = {};
                 paramsInputList.forEach((input) => {
+                    if (input.key.trim() !== "" && input.value.trim() !== "")
                     params = {
                         ...params,
                         [input.key]: input.value
@@ -112,100 +126,107 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
         }
     }
 
-    return (
-        <>
-            <section className="create-new">
-                <h3>Create new Mock Server</h3>
 
-                <form>
+    const renderMethodOptions = () => {
+        return (
+            <div className="form-item">
 
-                    {/* Mock server name input */}
-                    <label className="label-style" htmlFor="text">
-                        Mock server name
-                    </label>
-                    <input
-                        className="input-field"
-                        type="text"
-                        id="name"
-                        required
-                        value={name}
-                        onChange={(e) => {
-                            setName(e.target.value);
-                        }}
-                    />
+                <label htmlFor="select" className="label-style"> Method  </label>
 
+                {React.createElement(
+                    "select",
+                    {
+                        required: true,
+                        placeholder: "Request method",
+                        name: "method",
+                        value: method,
+                        className: "method-select",
+                        onChange: (e: ChangeEvent<HTMLSelectElement>) => {
+                            setMethod(e.target.value);
+                        },
+                    },
 
-                    <div className="form-row">
+                    METHODLIST.map((method) => {
+                        return React.createElement(
+                            "option",
 
-                        {/* Options to select request method */}
-                        <div className="form-item">
-                            <div className="field">
-                                <label> Method </label>
-
-                                {React.createElement(
-                                    "select",
-                                    {
-                                        required: true,
-                                        placeholder: "Request method",
-                                        name: "method",
-                                        value: method,
-                                        onChange: (e: ChangeEvent<HTMLSelectElement>) => {
-                                            setMethod(e.target.value);
-                                        },
-                                    },
-
-                                    METHODLIST.map((method) => {
-                                        return React.createElement(
-                                            "option",
-
-                                            {
-                                                value: method,
-                                                key: method,
-                                            },
-                                            method
-                                        );
-                                    })
-                                )}
-                            </div>
-
-                        </div>
+                            {
+                                value: method,
+                                key: method,
+                            },
+                            method
+                        );
+                    })
+                )}
+            </div>
+        );
+    }
 
 
-                        {/* Input field to add request endpoint */}
-                        <div className="form-item">
-                            <label className="label-style" htmlFor="text">
-                                Request endpoint
-                            </label>
-                            <input
-                                className="input-field"
-                                type="text"
-                                id="url"
-                                required
-                                value={endPoint}
-                                onChange={(e) => {
-                                    setEndPoint(e.target.value);
+    const renderEndPointInput = () => {
+        return <div className="form-item">
+            <label className="label-style" htmlFor="text">
+                Request endpoint
+            </label>
+            <input
+                className=""
+                type="text"
+                id="url"
+                placeholder="Endpoint"
+                required
+                value={endPoint}
+                onChange={(e) => {
+                    setEndPoint(e.target.value);
 
-                                }}
-                            />
-                        </div>
+                }}
+            />
+        </div>;
+    }
+
+    const renderNameInput = () => {
+        return (
+            <div className="form-item"><label className="label-style" htmlFor="text">
+                Server name
+            </label>
+                <input
+                    className="name-input-field"
+                    type="text"
+                    id="name"
+                    placeholder="Mock server name"
+                    required
+                    value={name}
+                    onChange={(e) => {
+                        setName(e.target.value);
+                    }}
+                /></div>
+        );
+    }
 
 
-
-                    </div>
-
-                    <br />
-
-                    {/* Input fields for url parameters */}
+    const renderParamsInput = () => {
+        return (
+            <div className="param-section">
+                <div className="param-title-row">
                     <label className="label-style" htmlFor="text">
                         Parameters
                     </label>
+                    <div className="add-param-button">
+                        <Button onClick={handleAddClick}
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<AddIcon />}
+                        >Add param</Button></div>
+
+                </div>
+                <div className="param-scroll">
                     {paramsInputList.map((x, i) => {
                         return (
                             <>
-                                <div className="form-row">
+                                <div className="">
 
-                                <input
-                                        className="form-item input-medium"
+
+                                    <input
+                                        className="input-medium"
                                     name="key"
                                     placeholder="Enter param"
                                     value={x.key}
@@ -213,79 +234,140 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                                 />
                                 <input
                                     name="value"
-                                        className="form-item input-medium"
+                                        className=" input-medium"
                                     placeholder="Enter param value"
                                     value={x.value}
                                     onChange={e => handleInputChange(e, i)}
-                                />
-                                    <div className="form-item">
+                                    />
 
-                                        {paramsInputList.length !== 1 && <button
-                                        onClick={() => handleRemoveClick(i)}>Remove</button>}
+
+                                    {paramsInputList.length !== 1 && <IconButton color="error"
+                                        onClick={() => handleRemoveClick(i)} ><RemoveCircleOutlineIcon /></IconButton>}
+
 
 
                                 </div>
 
-                            </div>
-                                {paramsInputList.length - 1 === i && <button style={{ marginTop: "10px", marginBottom: "20px" }} onClick={handleAddClick}>Add param</button>}
+
                             </>
                         );
                     })}
-                    <br />
+                </div>
+            </div>
+        );
+    }
 
-                    <div className="form-row">
-
-                        {/* Input for raw request body */}
-                        <div className="form-item">
+    const renderBodyInput = () => {
+        return (
+            <>
+                <div className="">
                             <label className="label-style" htmlFor="text">
                                 Raw request body
                             </label>
-                            <input
-                                className="input-field"
-                                type="text"
+                    <textarea
+                        className="input-large"
+
                                 id="body"
                                 required
+                        placeholder="{}"
                                 value={body}
                                 onChange={(e) => {
                                     setBody(e.target.value);
                                 }}
                             /></div>
+            </>
+        );
+    }
 
-
-
-                    {/* Input field for Raw response */}
-                        <div className="form-item">
+    const renderResponseInput = () => {
+        return (
+            <>
+                <div className="">
                     <label className="label-style" htmlFor="text">
                         Raw response
                     </label>
-                    <input
-                        className="input-field"
-                        type="text"
+                    <textarea
+                        className="input-large"
+
                         id="response"
                         required
+                        placeholder="{}"
                         value={res}
                         onChange={(e) => {
                             setRes(e.target.value);
                         }}
                     />
                         </div>
-                    </div>
+            </>
+        );
+    }
 
-                    {/* Button to Save         */}
-                    <div className="save-button">
 
+    return (
+        <>
 
-                        <Button variant="contained" startIcon={<SaveIcon />} onClick={async (e) => {
+            <div className="create-new-title-row">
+                <h3>Create new Mock Server</h3>
+                <div className="action-buttons">
+                    <Button variant="contained" color="warning" startIcon={<RefreshIcon />} onClick={resetAllFields}>
+                        Reset
+                    </Button>
+                    <Button variant="contained" startIcon={<SaveIcon />} onClick={async (e) => {
                             e.preventDefault();
                             handleSubmit();
                         }} color="info">
+                        Save
+                    </Button>
+                </div>
+            </div>
 
-                            Save mock server
-                        </Button>
+
+            <section className="create-new">
+                <form>
+                    <div className="create-new-grid">
+                        {/* Left side of the grid */}
+                        <div className="create-new-left">
+                            {/* Mock server name input */}
+                            {renderNameInput()}
+
+                            {/* Options to select request method */}
+                            {renderMethodOptions()}
+
+                            {/* Input field to add request endpoint */}
+                            {renderEndPointInput()}
+
+                        </div>
+
+
+
+
+
+
+                        <div className="create-new-right">
+
+                            {/* Input fields for url parameters */}
+                            {renderParamsInput()}
+
+
+                        </div>
                     </div>
 
 
+
+
+                    <div className="create-new-grid">
+
+                        {/* Input for raw request body */}
+                        {renderBodyInput()}
+
+
+                        {/* Input field for Raw response */}
+
+                        {renderResponseInput()}
+                    </div>
+
                 </form>
+
             </section>
         </>
     );

@@ -1,10 +1,53 @@
 .create-new {
-    margin: 10px;
+    margin:0 0 10px 0;
+}
+
+.create-new-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    margin:20px;
+    align-items: center;
+}
+
+.create-new-left{
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 30vh;
+}
+
+.create-new-right{
+margin-right: 20px;
+}
+
+.create-new-title-row{
+    position: sticky;
+    top: 0;
+    background-color:white;
+    display:flex;
+    justify-content:space-between;
+    padding:10px 20px;
+    align-items:center;
+    box-shadow: 0.5px 0.5px 0.5px #ccc;
+    margin-bottom:20px;
+}
+.create-new-title-row > h3{
+    font-weight: 400;
+}
+
+.action-buttons > button{
+    margin-left: 50px;
+}
+.name-input-field{
+width: 50%;
 }
 
 .form-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    align-items: center;
 }
 
 .button-row {
@@ -13,8 +56,7 @@
 }
 
 .form-item {
-    margin-right: 20px;
-    margin-top: 20px;
+   display: block;
 }
 
 .create-new button {
@@ -28,9 +70,16 @@
     margin: 8px 16px;
 }
 
-.add-button {
-    background-color: #6fb3fc;
-    color: #fff;
+.param-scroll {
+    /* position:sticky;
+    top: 0; */
+    
+max-height:35vh;
+overflow: auto;
+}
+
+.param-scroll .add-param-button{
+    overflow:hidden;
 }
 
 .save-button {
@@ -40,13 +89,38 @@ margin-top: 20px;
 }
 
 input.input-medium{
-height: 30px;
+height: 35px;
+
 }
 
-input.input-large{
-height: 50px;
+textarea.input-large{
+height: 60px;
+width: 90%;
+resize: none;
+margin-bottom: 20px;
+}
+.form-row  button{
+    margin-bottom: 20px;
+}
+.params-row{
+    display: flex;
+    justify-content: space-around;
 }
 
-.create-new input{
-    width:100%;
+.body-response-row{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.param-section button{
+    text-transform: none;
+}
+.param-title-row{
+margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+
+}
+.param-section{
 }
