@@ -9,7 +9,6 @@
     display:flex;
     justify-content: space-between;
     background-color:#fff;
-   
     height:45px;
     border-radius:10px;
     margin-bottom: 8px;
@@ -27,19 +26,22 @@
 }
 
 .mock-details {
-    margin: 10px;
-    margin-top: 30px;
+    margin-top: 0;
     
+}
+
+.mock-details a{
+    text-decoration: none;
 }
 
 .mock-details-row{
     margin-bottom: 40px;
-    margin-top: 20px;
-    margin-left:20px;
-    margin-right: 20px;
+    padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color:white;
+    box-shadow: 0.5px 0.5px #ccc;
     
 }
 
@@ -47,12 +49,33 @@
 .mock-details-row > h2{
 margin: 0;
 padding: 0;
-font-weight: 400;
+font-weight: 300;
+font-size:1.9rem;
 }
 
-.delete-button-row{
+.request-row{
 display: flex;
-justify-content:center;
+justify-content:space-between;
+margin: 0 10px;
+background-color:white;
+padding:20px 50px;
+border-radius:10px;
+box-shadow: 0.5px 0.5px #ccc;
+
+}
+
+.request-subtitle{
+    color:rgb(77, 66, 66);
+    font-weight:500;
+}
+
+ h5 > span{
+    font-weight: 400;
+    color:black;
+}
+
+.delete-request-button{
+    align-self: center;
 }
 
 .mock-details-card{
@@ -62,7 +85,15 @@ justify-content:center;
 
 }
 
-.add-request-button{
+.add-request-button {
     text-decoration: none;
     color:white;
 }
+
+.json-display > pre{
+    background-color:rgb(240, 238, 238);
+    padding:20px;
+    border-radius: 5px;
+    color:rgb(88, 83, 83);
+}
+

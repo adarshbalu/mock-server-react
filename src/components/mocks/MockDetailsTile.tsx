@@ -76,26 +76,40 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
         }
         return finalURL;
     }
+
+    const getAPIURLElement = () => {
+        return request.method === "GET" ? <a href={getAPIURL()} target="__blank">{getAPIURL()}</a> : getAPIURL();
+    }
+
     return (<>
         <section className="mock-details-card">
-            {request.method === "GET" ? <h6>URL : <a href={getAPIURL()} target="__blank">{getAPIURL()}</a></h6> : <h6>URL : {getAPIURL()}</h6>}
-        <h6>Endpoint : {request.endPoint}</h6>
-        <h6>Method : {request.method}</h6>
+            <div className="request-row">
+                <div>
 
-        <h5>Params :</h5>
-        {<div><pre>{JSON.stringify(request.params, null, 2)}</pre></div>}
+                    <h5 className="request-subtitle">URL : <span> {getAPIURLElement()}</span>
+                    </h5>
 
-        <h5>Body :</h5>
-        {<div><pre>{JSON.stringify(request.body, null, 2)}</pre></div>}
 
-        <h5>Response :</h5>
-        {<div><pre>{JSON.stringify(request.response, null, 2)}</pre></div>}
 
-            <div className="delete-button-row">
-                <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteRequest()}>
-                    Delete
-                </Button>
+                    <h5 className="request-subtitle">Endpoint : <span>{request.endPoint}</span></h5>
+                    <h5 className="request-subtitle">Method : <span>{request.method}</span></h5>
+
+                    <h5 className="request-subtitle">Params :</h5>
+                    {<div className="json-display"><pre>{JSON.stringify(request.params, null, 2)}</pre></div>}
+
+                    <h5 className="request-subtitle">Body :</h5>
+                    {<div className="json-display"><pre>{JSON.stringify(request.body, null, 2)}</pre></div>}
+
+                    <h5 className="request-subtitle">Response :</h5>
+                    {<div className="json-display"><pre>{JSON.stringify(request.response, null, 2)}</pre></div>}
+                </div>
+                <div className="delete-request-button">
+                    <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteRequest()}>
+                        Delete
+                    </Button>
+                </div>
             </div>
+
         </section>
     </>
     );
