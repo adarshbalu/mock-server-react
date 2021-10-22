@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useEffect, } from "react";
+import { FunctionComponent, useContext, useEffect, useState, } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { MocksContext } from "../../contexts/mocks_contex";
@@ -10,7 +10,7 @@ import URL from "../../utils/urls";
 import MockDetailsTile from "./MockDetailsTile";
 import { RequestContext } from "../../contexts/requests_context";
 import { Button } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from '@mui/icons-material/Add'; import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 interface MockDetailsProps {
 
@@ -25,6 +25,8 @@ interface StateType {
 const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
     const history = useHistory<StateType>();
     const mock = history.location.state.mock;
+    const [allRequests, setAllRequests] = useState([] as Array<RequestType>);
+    const [allMocks, setAllMocks] = useState([] as Array<Mock>);
     const req = history.location.state.request;
 
     const { setMocks } = useContext(MocksContext);
@@ -33,10 +35,12 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
     useEffect(() => {
         const getMocks = async () => {
             try {
-                const allMocks: Mock[] = await APIService.get(URL.MOCK_PATH) as Mock[];
-                setMocks(allMocks);
-                const allRequests: RequestType[] = await APIService.get(URL.REQUEST_PATH) as RequestType[];
-                setRequest(allRequests);
+                const allMocksList: Mock[] = await APIService.get(URL.MOCK_PATH) as Mock[];
+                setAllMocks(allMocksList);
+                setMocks(allMocksList);
+                const allRequestsList: RequestType[] = await APIService.get(URL.REQUEST_PATH) as RequestType[];
+                setAllRequests(allRequestsList);
+                setRequest(allRequestsList);
             }
             catch (e) {
                 console.log(e);
@@ -63,17 +67,44 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
         }
     }
 
+    const deleteMock = async (id: number) => {
+        await APIService.delete(URL.MOCK_PATH, id);
+        const tempMocksList: Mock[] = [];
+        allMocks.forEach((m) => {
+            if (m.id !== id) { tempMocksList.push(m); }
+        });
+        setMocks(tempMocksList);
+        const tempReqList: RequestType[] = [];
+        mock.requests.forEach(async (r) => {
+            await APIService.delete(URL.REQUEST_PATH, r);
+        });
+        allRequests.forEach((r) => {
+            if (!mock.requests.includes(r.id!)) {
+                tempReqList.push(r);
+            }
+        });
+        setRequest(tempReqList);
+        history.go(-1);
+    }
+
+
     return (<>
         <section className="mock-details">
             <div className="mock-details-row">
             <h2>{mock.name}</h2>
 
-
+                <div className="mock-details-buttons-row">
                 <Link to={{ pathname: "/add", state: { mock: mock, } }} >
                     <Button variant="contained" startIcon={<AddIcon />} color="info" className="add-request-button">
                             Add new Request
                         </Button>
                 </Link>
+                    <div className="delete-mock-button">
+                        <Button variant="contained" startIcon={<DeleteOutlineIcon />} color="error" onClick={() => deleteMock(mock.id!)} >
+                            Delete mock server
+                        </Button>
+                    </div>
+                </div>
             </div>
             {renderRequestsList()}
 

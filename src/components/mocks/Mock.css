@@ -74,6 +74,13 @@ font-weight: 300;
 font-size:1.9rem;
 }
 
+.mock-details-buttons-row{
+   display:flex;
+}
+.delete-mock-button{
+    margin-left: 20px;
+}
+
 .request-row{
 display: flex;
 justify-content:space-between;
