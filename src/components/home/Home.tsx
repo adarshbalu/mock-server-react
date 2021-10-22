@@ -44,7 +44,7 @@ const Home: FunctionComponent<HomeProps> = () => {
             <div className="home-title-row">
                 <h1>Mock servers</h1>
             <div className="create-new-button-row">
-                <Button variant="contained" className="create-new-button" onClick={() => history.push("/create")}>Add new mock server</Button>
+                    <Button variant="contained" className="create-new-button" onClick={() => history.push("/create")}>Create mock server</Button>
             </div>
             </div>
             <MocksList />
