@@ -60,7 +60,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
 
     // handle click event of the Add button
     const handleAddClick = () => {
-        setParamsInputList([...paramsInputList, { key: "", value: "" }]);
+        setParamsInputList([{ key: "", value: "" }, ...paramsInputList,]);
     };
 
 
