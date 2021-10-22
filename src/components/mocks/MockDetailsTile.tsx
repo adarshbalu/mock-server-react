@@ -62,7 +62,7 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
 
     const getAPIURL = (): string => {
         let finalURL = URL.API_BASE_URL + "/" + request.mockName + "/" + request.endPoint;
-        if (request.params !== {}) {
+        if (request.params !== {} && Object.entries(request.params).length > 0) {
             finalURL = finalURL + "?";
             const values = Object.values(request.params);
             let i: number = 0;
