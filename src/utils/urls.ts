@@ -1,7 +1,7 @@
 export default class URL {
     static BASE_URL: string = "http://localhost:5000";
 
-    static API_BASE_URL: string = "http://localhost:3101/api";
+    static API_BASE_URL: string = "http://localhost:3101";
 
     static MOCK_ENDPOINT: string = "/mocks";
     static MOCK_PATH: string = URL.BASE_URL + URL.MOCK_ENDPOINT;

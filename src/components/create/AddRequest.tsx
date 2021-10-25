@@ -60,7 +60,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
 
     // handle click event of the Add button
     const handleAddClick = () => {
-        setParamsInputList([...paramsInputList, { key: "", value: "" }]);
+        setParamsInputList([{ key: "", value: "" }, ...paramsInputList,]);
     };
 
 
@@ -75,8 +75,10 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
         if (method.trim() === "" || trimEndpoint === "" || res.trim() === "") {
             alert("All fields required");
 
-        } else if (trimEndpoint[0] === '/' || trimEndpoint[trimEndpoint.length - 1] === '/' || trimEndpoint.includes("/")) {
-            alert("Invalid endpoint");
+        }
+
+        else if (trimEndpoint[0] === '/' || trimEndpoint[trimEndpoint.length - 1] === '/' || trimEndpoint.includes("/") || !trimEndpoint.match(/^([0-9]|[a-z])+([0-9a-z]+)$/i)) {
+            alert("Invalid endpoint ");
         }
         else {
 

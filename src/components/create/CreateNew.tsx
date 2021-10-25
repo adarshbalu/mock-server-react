@@ -58,7 +58,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
     // handle click event of the Add button
     const handleAddClick = () => {
-        setParamsInputList([...paramsInputList, { key: "", value: "" }]);
+        setParamsInputList([{ key: "", value: "" }, ...paramsInputList,]);
     };
 
 
@@ -74,8 +74,13 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
         if (name.trim() === "" || method.trim() === "" || trimEndpoint === "" || res.trim() === "") {
             alert("All fields required");
 
-        } else if (trimEndpoint[0] === '/' || trimEndpoint[trimEndpoint.length - 1] === '/' || trimEndpoint.includes("/")) {
-            alert("Invalid endpoint");
+        }
+        else if (name.trim().includes(" ") || !name.trim().match(/^([0-9]|[a-z])+([0-9a-z]+)$/i)) {
+            alert("Invalid mock Name ");
+        }
+
+        else if (trimEndpoint[0] === '/' || trimEndpoint[trimEndpoint.length - 1] === '/' || trimEndpoint.includes("/") || !trimEndpoint.match(/^([0-9]|[a-z])+([0-9a-z]+)$/i)) {
+            alert("Invalid endpoint ");
         }
         else {
 
@@ -96,7 +101,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                     endPoint: endPoint,
                     params: params,
                     response: res,
-                    mockName: name
+                    mockName: name.replace(/\s/g, "")
 
                 };
                 if (Util.checkForJSON(res)) {
@@ -109,7 +114,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
                 const newRequst = await APIService.post(URL.REQUEST_PATH, requestData) as RequestType;
                 const mockServerData: Mock = {
-                    name: name,
+                    name: name.replace(/\s/g, ""),
                     requests: [newRequst.id!]
 
                 };
