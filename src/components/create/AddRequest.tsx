@@ -108,14 +108,8 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
                 if (Util.checkForJSON(body)) {
                     requestData = { ...requestData, body: JSON.parse(body) }
                 }
-                const newRequst = await APIService.post(URL.REQUEST_PATH, requestData) as RequestType;
-                const mockServerData: Mock = {
-                    ...mock,
-                    requests: [...mock.requests, newRequst.id!]
 
-                };
-
-                await APIService.put(URL.MOCK_PATH + `/${mock.id}`, mockServerData);
+                await APIService.put(URL.MOCK_PATH + `/${mock.id}`, requestData);
 
             } catch (e) {
                 console.log(e);

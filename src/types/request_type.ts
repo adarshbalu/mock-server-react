@@ -1,7 +1,7 @@
 
 
 export default interface RequestType {
-    id?: number;
+    id?: string;
     status: number;
     method: string;
     params: {};

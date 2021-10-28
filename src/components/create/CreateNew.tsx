@@ -112,10 +112,9 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                 }
 
 
-                const newRequst = await APIService.post(URL.REQUEST_PATH, requestData) as RequestType;
                 const mockServerData: Mock = {
                     name: name.replace(/\s/g, ""),
-                    requests: [newRequst.id!]
+                     requests: [requestData]
 
                 };
 

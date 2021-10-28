@@ -5,12 +5,10 @@ import Home from "./home/Home";
 import CreateNew from "./create/CreateNew";
 import { MocksContextProvider } from "../contexts/mocks_contex";
 import MockDetails from "./mocks/MockDetails";
-import { RequestContextProvider } from "../contexts/requests_context";
 import AddRequest from "../components/create/AddRequest";
 function App() {
   return (
     <MocksContextProvider>
-      <RequestContextProvider>
         <Router>
           <Switch>
             <Route exact path="/">
@@ -29,8 +27,7 @@ function App() {
               <AddRequest />
             </Route>
           </Switch>
-        </Router>
-      </RequestContextProvider>
+      </Router>
     </MocksContextProvider>
   );
 }
