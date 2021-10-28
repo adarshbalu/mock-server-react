@@ -123,6 +123,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
             } catch (e) {
                 console.log(e);
+                alert("Problem occured : Failed to create mock server");
 
             }
             pushPath();

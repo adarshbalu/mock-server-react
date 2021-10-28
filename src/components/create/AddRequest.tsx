@@ -113,7 +113,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
 
             } catch (e) {
                 console.log(e);
-
+                alert("Problem occured : Failed to add request to mock server");
             }
             pushPath();
 
