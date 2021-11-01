@@ -13,6 +13,10 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import SaveIcon from '@mui/icons-material/Save';
 
+enum AddRequestState {
+    LOADING, SUCESS, ERROR, NONE
+}
+
 interface AddRequestProps {
 }
 
@@ -23,6 +27,7 @@ interface StateType {
 const AddRequest: FunctionComponent<AddRequestProps> = () => {
 
     const history = useHistory<StateType>();
+    const [addRequestState, setAddRequestState] = useState(AddRequestState.NONE);
     const mock = history.location.state.mock;
     const [method, setMethod] = useState("GET");
     const [endPoint, setEndPoint] = useState(`api`);
@@ -86,7 +91,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
             alert("Invalid status");
         }
         else {
-
+            setAddRequestState(AddRequestState.LOADING);
             try {
                 params = {};
                 paramsInputList.forEach((input) => {
@@ -115,8 +120,13 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
                 }
 
                 await APIService.put(URL.MOCK_PATH + `/${mock.id}`, requestData);
+                setAddRequestState(AddRequestState.SUCESS);
                 pushPath();
             } catch (e) {
+                setAddRequestState(AddRequestState.ERROR);
+                setTimeout(() => {
+                    setAddRequestState(AddRequestState.NONE);
+                }, 100);
                 alert("Problem occured : Failed to add request to mock server");
             }
 
@@ -202,7 +212,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
                     {paramsInputList.map((x, i) => {
                         return (
                             <>
-                                <div className="">
+                                <div className="" key={i}>
 
 
                                     <input
@@ -384,7 +394,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
                     </div>
 
                 </form>
-
+                {addRequestState}
             </section>
 
         </>

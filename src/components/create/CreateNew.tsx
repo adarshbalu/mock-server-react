@@ -252,7 +252,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                     {paramsInputList.map((x, i) => {
                         return (
                             <>
-                                <div className="">
+                                <div className="" key={i}>
 
 
                                     <input
