@@ -28,6 +28,8 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     const [res, setRes] = useState("{}");
     const history = useHistory();
 
+    const [status, setStatus] = useState("200");
+
 
     // reset all input fields
     const resetAllFields = () => {
@@ -38,6 +40,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
         setParamsInputList([{ key: "", value: "" }, { key: "", value: "" }, { key: "", value: "" }]);
         params = {};
         setRes("{}");
+        setStatus("200");
     }
 
 
@@ -82,6 +85,9 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
         else if (trimEndpoint[0] === '/' || trimEndpoint[trimEndpoint.length - 1] === '/' || trimEndpoint.includes("/") || !trimEndpoint.match(/^([0-9]|[a-z])+([0-9a-z]+)$/i)) {
             alert("Invalid endpoint ");
         }
+        else if (isNaN(+status.trim())) {
+            alert("Invalid status");
+        }
         else {
 
             try {
@@ -96,7 +102,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                 });
                 let requestData: RequestType = {
                     method: method,
-                    status: 200,
+                    status: parseInt(status.trim()),
                     body: body,
                     endPoint: endPoint,
                     params: params,
@@ -202,6 +208,26 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                     value={name}
                     onChange={(e) => {
                         setName(e.target.value);
+                    }}
+                /></div>
+        );
+    }
+
+
+    const renderStatusInput = () => {
+        return (
+            <div className="form-item"><label className="label-style" htmlFor="text">
+                Status code
+            </label>
+                <input
+                    className="name-input-field"
+                    type="text"
+                    id="status"
+                    placeholder="Status code"
+                    required
+                    value={status}
+                    onChange={(e) => {
+                        setStatus(e.target.value);
                     }}
                 /></div>
         );
@@ -340,6 +366,10 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
                             {/* Input field to add request endpoint */}
                             {renderEndPointInput()}
+
+                            {/* Input field to add status code */}
+                            {renderStatusInput()}
+
 
                         </div>
 

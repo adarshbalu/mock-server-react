@@ -27,6 +27,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
     const [method, setMethod] = useState("GET");
     const [endPoint, setEndPoint] = useState(`api`);
     const [body, setBody] = useState("{}");
+    const [status, setStatus] = useState("200");
     const [paramsInputList, setParamsInputList] = useState([{ key: "", value: "" }, { key: "", value: "" }, { key: "", value: "" }]);
     let params = {};
     const [res, setRes] = useState("{}");
@@ -40,6 +41,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
         setParamsInputList([{ key: "", value: "" }, { key: "", value: "" }, { key: "", value: "" }]);
         params = {};
         setRes("{}");
+        setStatus("200");
     }
 
 
@@ -72,13 +74,16 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
 
     const handleSubmit = async () => {
         const trimEndpoint = endPoint.trim();
-        if (method.trim() === "" || trimEndpoint === "" || res.trim() === "") {
+        if (method.trim() === "" || trimEndpoint === "" || res.trim() === "" || status.trim() === "") {
             alert("All fields required");
 
         }
 
         else if (trimEndpoint[0] === '/' || trimEndpoint[trimEndpoint.length - 1] === '/' || trimEndpoint.includes("/") || !trimEndpoint.match(/^([0-9]|[a-z])+([0-9a-z]+)$/i)) {
             alert("Invalid endpoint ");
+        }
+        else if (isNaN(+status.trim())) {
+            alert("Invalid status");
         }
         else {
 
@@ -93,10 +98,10 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
 
                 });
                 let requestData: RequestType = {
-                    method: method,
-                    status: 200,
+                    method: method.trim(),
+                    status: parseInt(status.trim()),
                     body: body,
-                    endPoint: endPoint,
+                    endPoint: endPoint.trim(),
                     params: params,
                     response: res,
                     mockName: mock.name
@@ -293,6 +298,27 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
     }
 
 
+    const renderStatusInput = () => {
+        return (
+            <div className="form-item"><label className="label-style" htmlFor="text">
+                Status code
+            </label>
+                <input
+                    className="name-input-field"
+                    type="text"
+                    id="status"
+                    placeholder="Status code"
+                    required
+                    value={status}
+                    onChange={(e) => {
+                        setStatus(e.target.value);
+                    }}
+                /></div>
+        );
+    }
+
+
+
     return (
         <>
             <div className="create-new-title-row">
@@ -324,6 +350,9 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
 
                             {/* Input field to add request endpoint */}
                             {renderEndPointInput()}
+
+                            {/* Input field to add status code */}
+                            {renderStatusInput()}
 
                         </div>
 
