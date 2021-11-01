@@ -126,13 +126,12 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
 
                 await APIService.post(URL.MOCK_PATH, mockServerData);
-
-            } catch (e) {
-                console.log(e);
-                alert("Problem occured : Failed to create mock server");
+                pushPath();
+            } catch (e: any) {
+                alert("Problem occured : Mock server creation failed");
 
             }
-            pushPath();
+
 
         }
     }

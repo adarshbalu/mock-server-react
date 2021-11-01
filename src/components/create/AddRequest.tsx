@@ -115,12 +115,11 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
                 }
 
                 await APIService.put(URL.MOCK_PATH + `/${mock.id}`, requestData);
-
+                pushPath();
             } catch (e) {
-                console.log(e);
                 alert("Problem occured : Failed to add request to mock server");
             }
-            pushPath();
+
 
         }
     }
