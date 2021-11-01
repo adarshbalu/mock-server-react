@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext, useEffect, } from "react";
 import { useHistory } from "react-router";
-import { MocksContext } from "../../contexts/mocks_contex";
+import { MocksContext, MockState } from "../../contexts/mocks_contex";
 import APIService from "../../services/api_service";
 import Mock from "../../types/mock";
 import URL from "../../utils/urls";
@@ -15,18 +15,20 @@ interface HomeProps {
 const Home: FunctionComponent<HomeProps> = () => {
 
     const history = useHistory();
-    const { setMocks } = useContext(MocksContext);
+    const { setMocks, setMockState } = useContext(MocksContext);
 
     useEffect(() => {
         const getMocks = async () => {
+            setMockState(MockState.LOADING);
             try {
             const allMocks: Mock[] = await APIService.get(URL.MOCK_PATH) as Mock[];
                 setMocks(allMocks);
-
+                setMockState(MockState.SUCESS);
             }
             catch (e) {
                 console.log(e);
                 setMocks([]);
+                setMockState(MockState.ERROR);
             }
         }
         getMocks();

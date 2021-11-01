@@ -9,6 +9,7 @@ export type MocksContextType = {
     mocks: Array<Mock>;
     setMocks: any;
     mockState: MockState;
+    setMockState: any;
 }
 
 type Props = {
@@ -19,6 +20,7 @@ const initialState: MocksContextType = {
     mocks: [],
     setMocks: {},
     mockState: MockState.NONE,
+    setMockState: {}
 }
 
 export const MocksContext = createContext<MocksContextType>(initialState);
@@ -44,7 +46,7 @@ export const MocksContextProvider = (props: Props) => {
     }, []);
 
     return (
-        <MocksContext.Provider value={{ mocks, setMocks, mockState }}>
+        <MocksContext.Provider value={{ mocks, setMocks, mockState, setMockState }}>
             {props.children}
         </MocksContext.Provider>
     );

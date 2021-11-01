@@ -25,7 +25,7 @@ const MocksList: FunctionComponent<MocksListProps> = () => {
 
                 {mockState === MockState.SUCESS ?
                     (mocks.length === 0 ?
-                    <h6>No mock servers found.</h6> :
+                        <h6>No mock servers found. Create new mock-server to conitue.</h6> :
                     <div>
                         {renderMocksList()}
                     </div>

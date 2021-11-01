@@ -17,9 +17,15 @@ interface CreateNewProps {
 
 }
 
+enum CreateMockState {
+    LOADING, SUCESS, ERROR, NONE
+}
+
 
 const CreateNew: FunctionComponent<CreateNewProps> = () => {
     const [name, setName] = useState("");
+
+    const [createMockState, setCreateMockState] = useState(CreateMockState.NONE);
     const [method, setMethod] = useState("GET");
     const [endPoint, setEndPoint] = useState(`api`);
     const [body, setBody] = useState("{}");
@@ -72,6 +78,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     }
 
     const handleSubmit = async () => {
+
         const trimEndpoint = endPoint.trim();
 
         if (name.trim() === "" || method.trim() === "" || trimEndpoint === "" || res.trim() === "") {
@@ -89,7 +96,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
             alert("Invalid status");
         }
         else {
-
+            setCreateMockState(CreateMockState.LOADING);
             try {
                 params = {};
                 paramsInputList.forEach((input) => {
@@ -101,13 +108,13 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
                 });
                 let requestData: RequestType = {
-                    method: method,
+                    method: method.trim(),
                     status: parseInt(status.trim()),
                     body: body,
-                    endPoint: endPoint,
+                    endPoint: endPoint.trim(),
                     params: params,
                     response: res,
-                    mockName: name.replace(/\s/g, "")
+                    mockName: name.replace(/\s/g, "").trim()
 
                 };
                 if (Util.checkForJSON(res)) {
@@ -126,9 +133,18 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
 
                 await APIService.post(URL.MOCK_PATH, mockServerData);
+                setCreateMockState(CreateMockState.SUCESS);
+                setTimeout(() => {
+                    setCreateMockState(CreateMockState.NONE);
+                }, 100);
                 pushPath();
             } catch (e: any) {
+                setCreateMockState(CreateMockState.ERROR);
+                setTimeout(() => {
+                    setCreateMockState(CreateMockState.NONE);
+                }, 100);
                 alert("Problem occured : Mock server creation failed");
+
 
             }
 

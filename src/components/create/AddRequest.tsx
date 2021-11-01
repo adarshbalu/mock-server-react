@@ -121,6 +121,9 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
 
                 await APIService.put(URL.MOCK_PATH + `/${mock.id}`, requestData);
                 setAddRequestState(AddRequestState.SUCESS);
+                setTimeout(() => {
+                    setAddRequestState(AddRequestState.NONE);
+                }, 100);
                 pushPath();
             } catch (e) {
                 setAddRequestState(AddRequestState.ERROR);
@@ -394,7 +397,7 @@ const AddRequest: FunctionComponent<AddRequestProps> = () => {
                     </div>
 
                 </form>
-                {addRequestState}
+
             </section>
 
         </>

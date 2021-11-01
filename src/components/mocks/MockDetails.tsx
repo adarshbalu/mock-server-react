@@ -56,7 +56,7 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
         });
         }
         else {
-            return <h5>No requests added.</h5>
+            return <h5>No requests added. Add request to continue.</h5>
         }
     }
 
