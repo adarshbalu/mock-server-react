@@ -17,9 +17,15 @@ interface CreateNewProps {
 
 }
 
+enum CreateMockState {
+    LOADING, SUCESS, ERROR, NONE
+}
+
 
 const CreateNew: FunctionComponent<CreateNewProps> = () => {
     const [name, setName] = useState("");
+
+    const [createMockState, setCreateMockState] = useState(CreateMockState.NONE);
     const [method, setMethod] = useState("GET");
     const [endPoint, setEndPoint] = useState(`api`);
     const [body, setBody] = useState("{}");
@@ -27,6 +33,8 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     let params = {};
     const [res, setRes] = useState("{}");
     const history = useHistory();
+
+    const [status, setStatus] = useState("200");
 
 
     // reset all input fields
@@ -38,6 +46,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
         setParamsInputList([{ key: "", value: "" }, { key: "", value: "" }, { key: "", value: "" }]);
         params = {};
         setRes("{}");
+        setStatus("200");
     }
 
 
@@ -69,6 +78,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     }
 
     const handleSubmit = async () => {
+
         const trimEndpoint = endPoint.trim();
 
         if (name.trim() === "" || method.trim() === "" || trimEndpoint === "" || res.trim() === "") {
@@ -82,8 +92,11 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
         else if (trimEndpoint[0] === '/' || trimEndpoint[trimEndpoint.length - 1] === '/' || trimEndpoint.includes("/") || !trimEndpoint.match(/^([0-9]|[a-z])+([0-9a-z]+)$/i)) {
             alert("Invalid endpoint ");
         }
+        else if (isNaN(+status.trim())) {
+            alert("Invalid status");
+        }
         else {
-
+            setCreateMockState(CreateMockState.LOADING);
             try {
                 params = {};
                 paramsInputList.forEach((input) => {
@@ -95,13 +108,13 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
                 });
                 let requestData: RequestType = {
-                    method: method,
-                    status: 200,
+                    method: method.trim(),
+                    status: parseInt(status.trim()),
                     body: body,
-                    endPoint: endPoint,
+                    endPoint: endPoint.trim(),
                     params: params,
                     response: res,
-                    mockName: name.replace(/\s/g, "")
+                    mockName: name.replace(/\s/g, "").trim()
 
                 };
                 if (Util.checkForJSON(res)) {
@@ -120,13 +133,21 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
 
                 await APIService.post(URL.MOCK_PATH, mockServerData);
+                setCreateMockState(CreateMockState.SUCESS);
+                setTimeout(() => {
+                    setCreateMockState(CreateMockState.NONE);
+                }, 100);
+                pushPath();
+            } catch (e: any) {
+                setCreateMockState(CreateMockState.ERROR);
+                setTimeout(() => {
+                    setCreateMockState(CreateMockState.NONE);
+                }, 100);
+                alert("Problem occured : Mock server creation failed");
 
-            } catch (e) {
-                console.log(e);
-                alert("Problem occured : Failed to create mock server");
 
             }
-            pushPath();
+
 
         }
     }
@@ -208,6 +229,26 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
     }
 
 
+    const renderStatusInput = () => {
+        return (
+            <div className="form-item"><label className="label-style" htmlFor="text">
+                Status code
+            </label>
+                <input
+                    className="name-input-field"
+                    type="text"
+                    id="status"
+                    placeholder="Status code"
+                    required
+                    value={status}
+                    onChange={(e) => {
+                        setStatus(e.target.value);
+                    }}
+                /></div>
+        );
+    }
+
+
     const renderParamsInput = () => {
         return (
             <div className="param-section">
@@ -227,7 +268,7 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
                     {paramsInputList.map((x, i) => {
                         return (
                             <>
-                                <div className="">
+                                <div className="" key={i}>
 
 
                                     <input
@@ -340,6 +381,10 @@ const CreateNew: FunctionComponent<CreateNewProps> = () => {
 
                             {/* Input field to add request endpoint */}
                             {renderEndPointInput()}
+
+                            {/* Input field to add status code */}
+                            {renderStatusInput()}
+
 
                         </div>
 

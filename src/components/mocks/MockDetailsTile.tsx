@@ -25,7 +25,7 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
 
     const deleteRequest = async () => {
         const requstList = mock.requests.filter((r) => {
-            return r !== request;
+            return r.id !== request.id;
         });
         const newMock = {
             ...mock,
@@ -45,10 +45,17 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
         setMocks(newMocksList);
 
 
-
+        try {
         await APIService.delete(URL.MOCK_PATH, `${mock.id}/${request.id}`);
         history.go(-1);
+        }
+        catch (e) {
+            alert("Failed to delete request");
+            history.go(-1);
+        }
     }
+
+
 
     const getAPIURL = (): string => {
         let finalURL = URL.API_BASE_URL + "/" + request.mockName + "/" + request.endPoint;
