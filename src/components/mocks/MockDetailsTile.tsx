@@ -2,7 +2,6 @@ import Button from "@mui/material/Button";
 import { FunctionComponent, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { MocksContext } from "../../contexts/mocks_contex";
-import { RequestContext } from "../../contexts/requests_context";
 import APIService from "../../services/api_service";
 import Mock from "../../types/mock";
 import RequestType from "../../types/request_type";
@@ -17,7 +16,6 @@ interface MockDetailsTileProps {
 }
 
 const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDetailsTileProps) => {
-    const { setRequest, request: requests } = useContext(RequestContext);
     const { setMocks, mocks } = useContext(MocksContext);
 
     const history = useHistory();
@@ -27,7 +25,7 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
 
     const deleteRequest = async () => {
         const requstList = mock.requests.filter((r) => {
-            return r !== request.id;
+            return r.id !== request.id;
         });
         const newMock = {
             ...mock,
@@ -46,19 +44,18 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
         });
         setMocks(newMocksList);
 
-        const newRequestList = requests;
-        //Update state of request
-        requests.forEach((r) => {
-            if (r.id === request.id) {
-                newRequestList.splice(requests.indexOf(request), 1);
-            }
-        });
-        setRequest(newRequestList);
 
-        await APIService.put(URL.MOCK_PATH + `/${mock.id}`, newMock);
-        await APIService.delete(URL.REQUEST_PATH, request.id!);
+        try {
+        await APIService.delete(URL.MOCK_PATH, `${mock.id}/${request.id}`);
         history.go(-1);
+        }
+        catch (e) {
+            alert("Failed to delete request");
+            history.go(-1);
+        }
     }
+
+
 
     const getAPIURL = (): string => {
         let finalURL = URL.API_BASE_URL + "/" + request.mockName + "/" + request.endPoint;

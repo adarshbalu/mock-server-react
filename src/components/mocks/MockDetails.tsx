@@ -8,7 +8,6 @@ import RequestType from "../../types/request_type";
 import '../mocks/Mock.css';
 import URL from "../../utils/urls";
 import MockDetailsTile from "./MockDetailsTile";
-import { RequestContext } from "../../contexts/requests_context";
 import { Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add'; import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
@@ -25,12 +24,10 @@ interface StateType {
 const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
     const history = useHistory<StateType>();
     const mock = history.location.state.mock;
-    const [allRequests, setAllRequests] = useState([] as Array<RequestType>);
     const [allMocks, setAllMocks] = useState([] as Array<Mock>);
     const req = history.location.state.request;
 
     const { setMocks } = useContext(MocksContext);
-    const { setRequest } = useContext(RequestContext);
 
     useEffect(() => {
         const getMocks = async () => {
@@ -38,14 +35,10 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
                 const allMocksList: Mock[] = await APIService.get(URL.MOCK_PATH) as Mock[];
                 setAllMocks(allMocksList);
                 setMocks(allMocksList);
-                const allRequestsList: RequestType[] = await APIService.get(URL.REQUEST_PATH) as RequestType[];
-                setAllRequests(allRequestsList);
-                setRequest(allRequestsList);
             }
             catch (e) {
                 console.log(e);
                 setMocks([]);
-                setRequest([]);
             }
         }
         getMocks();
@@ -63,27 +56,17 @@ const MockDetails: FunctionComponent<MockDetailsProps> = (props) => {
         });
         }
         else {
-            return <h5>No requests added.</h5>
+            return <h5>No requests added. Add request to continue.</h5>
         }
     }
 
-    const deleteMock = async (id: number) => {
+    const deleteMock = async (id: string) => {
         await APIService.delete(URL.MOCK_PATH, id);
         const tempMocksList: Mock[] = [];
         allMocks.forEach((m) => {
             if (m.id !== id) { tempMocksList.push(m); }
         });
         setMocks(tempMocksList);
-        const tempReqList: RequestType[] = [];
-        mock.requests.forEach(async (r) => {
-            await APIService.delete(URL.REQUEST_PATH, r);
-        });
-        allRequests.forEach((r) => {
-            if (!mock.requests.includes(r.id!)) {
-                tempReqList.push(r);
-            }
-        });
-        setRequest(tempReqList);
         history.go(-1);
     }
 

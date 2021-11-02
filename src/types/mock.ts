@@ -1,5 +1,7 @@
+import RequestType from "./request_type";
+
 export default interface Mock {
-    id?: number;
+    id?: string;
     name: string;
-    requests: number[];
+    requests: RequestType[];
 }

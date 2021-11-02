@@ -66,6 +66,15 @@
     z-index: 100;
 }
 
+.mock-details h5{
+    font-weight: normal;
+    margin-left: 20px;
+}
+
+.mock-list h6{
+    font-weight: normal;
+    margin-left: 20px;
+}
 
 .mock-details-row > h2{
 margin: 0;
