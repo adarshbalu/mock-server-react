@@ -5,7 +5,7 @@
 Clone the application :
 
 ```bash
-git clone git@gitlab.hatio.in:adarsh.balachandran/mock-server.git
+git clone git@github.com:adarshbalu/mock-server-react.git
 ```
 
 
