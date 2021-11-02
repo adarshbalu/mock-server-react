@@ -88,7 +88,7 @@ const MockDetailsTile: FunctionComponent<MockDetailsTileProps> = (props: MockDet
             // }
             return apiurl;
         }
-        else if (request.method === "GET") {
+        else if (request.method === "GET" && request.body === {}) {
 
             return <a href={apiurl} target="__blank">{apiurl}</a>;
         }
